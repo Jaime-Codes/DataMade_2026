@@ -1,4 +1,4 @@
-const YearSelect = ({ setYear }) => {
+const YearSelect = ({ year, setYear }) => {
   const startYear = 2026;
   const years = [...Array(11).keys()].map((increment) => {
     return startYear - increment;
@@ -20,6 +20,7 @@ const YearSelect = ({ setYear }) => {
         id="yearSelect"
         className="form-select form-select-lg mb-3"
         onChange={(e) => setYear(e.target.value)}
+        value={year}
       >
         {options}
       </select>

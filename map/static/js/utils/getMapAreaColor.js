@@ -1,9 +1,10 @@
 const getMapAreaColor = (percentageOfPermits) => {
-  if (typeof percentageOfPermits !== "number") {
-    //TODO verify data type. Will it always be a num or are we passing in string
-    return "#f4722d";
-  }
   const communityAreaColors = ["#eff3ff", "#bdd7e7", "#6baed6", "#2171b5"];
+
+  if (typeof percentageOfPermits !== "number") {
+    return "#d3500a";
+  }
+
   let fillColor;
 
   if (percentageOfPermits < 25) {

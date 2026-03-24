@@ -6,7 +6,7 @@ const getMaxNumberOfPermits = (currentYearMapData) => {
 
   for (let data of currentYearMapData) {
     const [key, value] = Object.entries(data)[0];
-    console.log("this is the community", key);
+
     if (value.num_permits > maxNumPermits.max) {
       maxNumPermits = { max: value.num_permits, name: key };
     }
