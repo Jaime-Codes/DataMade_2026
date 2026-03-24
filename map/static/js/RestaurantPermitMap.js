@@ -52,7 +52,7 @@ export default function RestaurantPermitMap() {
     );
   }
   const maxNumPermits = getMaxNumberOfPermits(currentYearData);
-
+  // console.log(" this is the maxNum permits", maxNumPermits);
   function setAreaInteraction(feature, layer) {
     /**
      * TODO: Use the methods below to:
@@ -72,7 +72,7 @@ export default function RestaurantPermitMap() {
     <>
       <YearSelect setYear={setYear} />
       {/* TODO  create func to calculate permits*/}
-      <YearlyPermitInfo totalPermits={10} maxPermits={5} />
+      <YearlyPermitInfo totalPermits={10} maxPermits={maxNumPermits.max} />
       <MapContainer id="restaurant-map" center={[41.88, -87.62]} zoom={10}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -82,7 +82,7 @@ export default function RestaurantPermitMap() {
           <GeoJSON
             data={RAW_COMMUNITY_AREAS}
             onEachFeature={setAreaInteraction}
-            key={maxNumPermits}
+            key={maxNumPermits.max}
           />
         ) : null}
       </MapContainer>

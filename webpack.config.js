@@ -1,6 +1,6 @@
-const path = require("path")
-const webpack = require("webpack") // eslint-disable-line no-unused-vars
-const BundleTracker = require("webpack-bundle-tracker")
+const path = require("path");
+const webpack = require("webpack"); // eslint-disable-line no-unused-vars
+const BundleTracker = require("webpack-bundle-tracker");
 
 const config = {
   context: __dirname,
@@ -46,7 +46,15 @@ const config = {
         exclude: /node_modules/,
         loader: "babel-loader",
         options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"],
+          presets: [
+            "@babel/preset-env",
+            [
+              "@babel/preset-react",
+              {
+                runtime: "automatic",
+              },
+            ],
+          ],
         },
       },
       {
@@ -99,7 +107,7 @@ const config = {
       },
     ],
   },
-}
+};
 
 module.exports = (env, argv) => {
   /*
@@ -109,12 +117,12 @@ module.exports = (env, argv) => {
    * /app/static/bundles for bundles.
    */
   if (argv.mode === "development") {
-    config.output.publicPath = "http://localhost:3000/static/bundles/"
+    config.output.publicPath = "http://localhost:3000/static/bundles/";
   }
 
   if (argv.mode === "production") {
-    config.output.publicPath = "/static/bundles/"
+    config.output.publicPath = "/static/bundles/";
   }
 
-  return config
-}
+  return config;
+};
