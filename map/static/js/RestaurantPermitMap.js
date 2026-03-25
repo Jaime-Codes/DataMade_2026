@@ -17,7 +17,7 @@ import "leaflet/dist/leaflet.css";
 import RAW_COMMUNITY_AREAS from "../../../data/raw/community-areas.geojson";
 
 export default function RestaurantPermitMap() {
-  const [isLoadingMap, setIsLoadingMap] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setIsError] = useState(false);
   const [activeArea, setActiveArea] = useState();
   const [totalPermits, setTotalPermits] = useState(0);
@@ -30,7 +30,7 @@ export default function RestaurantPermitMap() {
   useEffect(() => {
     const fetchMapData = async () => {
       setIsError(false);
-      setIsLoadingMap(true);
+      setIsLoading(true);
       try {
         const response = await fetch(yearlyDataEndpoint);
 
@@ -48,19 +48,17 @@ export default function RestaurantPermitMap() {
         console.error("Error details:", err);
         setIsError(true);
       } finally {
-        setIsLoadingMap(false);
+        setIsLoading(false);
       }
     };
 
     fetchMapData();
   }, [yearlyDataEndpoint]);
 
-  if (isLoadingMap) {
-    //TODO loading component
+  if (isLoading) {
     return <Loading />;
   }
   if (error) {
-    //TODO Error component. possibly move down component
     return (
       <div>
         <YearSelect setYear={setYear} />
