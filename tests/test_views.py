@@ -32,10 +32,14 @@ def test_map_data_view():
         community_area_id=area2.area_id, issue_date=date(2021, 6, 22)
     )
 
-    # Query the map data endpoint
     client = APIClient()
     response = client.get(reverse("map_data", query={"year": 2021}))
-
-    # TODO: Complete the test by asserting that the /map-data/ endpoint
-    # returns the correct number of permits for Beverly and Lincoln 
-    # Park in 2021
+    assert response.status_code == 200
+    
+    data = response.json()
+    results = {list(item.keys())[0]: list(item.values())[0] for item in data}
+    
+    assert results["Beverly"]["num_permits"] == 2
+    assert results["Beverly"]["area_id"] == 1
+    assert results["Lincoln Park"]["num_permits"] == 3
+    assert results["Lincoln Park"]["area_id"] == 2
