@@ -56,9 +56,7 @@ export default function RestaurantPermitMap() {
     fetchMapData();
   }, [year]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+ 
   if (error) {
     return <Error />;
   }
@@ -66,8 +64,6 @@ export default function RestaurantPermitMap() {
   const maxNumPermits = getMaxNumberOfPermits(currentYearData);
 
   function setAreaInteraction(feature, layer) {
-  
-
     const communityName = feature.properties.community;
     const area_id = feature.properties.area_num_1;
     const permitPercentage = (areaIdMap[area_id] / maxNumPermits.max) * 100;
@@ -81,6 +77,7 @@ export default function RestaurantPermitMap() {
     const hoverStyle = {
       ...defaultStyle,
       color: "green",
+      fillOpacity: 1,
     };
 
     layer.setStyle(defaultStyle);
@@ -96,13 +93,13 @@ export default function RestaurantPermitMap() {
       },
       mouseout: () => {
         layer.setStyle(defaultStyle);
-        setActiveArea(null);
       },
     });
   }
 
   return (
     <>
+      <h1>Chicago Restaurant Permits</h1>
       <YearSelect year={year} setYear={setYear} />
 
       <YearlyPermitInfo
@@ -114,6 +111,8 @@ export default function RestaurantPermitMap() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
         />
+        {isLoading && <Loading />}
+
         {currentYearData.length > 0 ? (
           <>
             <GeoJSON

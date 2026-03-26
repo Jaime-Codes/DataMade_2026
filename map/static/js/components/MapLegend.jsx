@@ -1,34 +1,20 @@
-import { useEffect } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 
 const MapLegend = () => {
   const map = useMap();
+  const [container, setContainer] = useState(null);
+  const grades = [0, 25, 50, 75];
+  const colors = ["#eff3ff", "#bdd7e7", "#6baed6", "#2171b5"];
 
   useEffect(() => {
     const legend = L.control({ position: "topright" });
 
     legend.onAdd = () => {
       const div = L.DomUtil.create("div", "info legend");
-      const grades = [0, 25, 50, 75];
-      const colors = ["#eff3ff", "#bdd7e7", "#6baed6", "#2171b5"];
-
-      div.style.backgroundColor = "white";
-      div.style.padding = "10px";
-      div.style.lineHeight = "18px";
-      div.style.color = "#555";
-
-      div.innerHTML = "<h4>Yearly Permits %</h4>";
-
-      for (let i = 0; i < grades.length; i++) {
-        div.innerHTML += `
-        <div style="display: flex; align-items: center; margin-bottom: 4px;">
-        <div style="background: ${colors[i]}; width: 18px; height: 18px; margin-right: 8px;"></div>
-        <span>${grades[i]}${grades[i + 1] ? "&ndash;" + grades[i + 1] : "+"}%</span>
-        </div>
-        `;
-      }
-
+      setContainer(div);
       return div;
     };
 
@@ -36,7 +22,43 @@ const MapLegend = () => {
     return () => legend.remove();
   }, [map]);
 
-  return null;
+  return container
+    ? createPortal(
+        <div
+          style={{
+            backgroundColor: "white",
+            padding: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <h4 style={{ margin: "0 0 8px 0" }}>Permits (%)</h4>
+          {grades?.map((grade, i) => (
+            <div
+              key={grade}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "4px",
+              }}
+            >
+              <div
+                style={{
+                  background: colors[i],
+                  width: "18px",
+                  height: "18px",
+                  marginRight: "8px",
+                }}
+              />
+              <span>
+                {grade}
+                {grades[i + 1] ? `-${grades[i + 1]}%` : "+%"}
+              </span>
+            </div>
+          ))}
+        </div>,
+        container,
+      )
+    : null;
 };
 
 export default MapLegend;

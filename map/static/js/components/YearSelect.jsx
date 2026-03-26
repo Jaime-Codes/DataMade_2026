@@ -13,12 +13,12 @@ const YearSelect = ({ year, setYear }) => {
 
   return (
     <>
-      <label htmlFor="yearSelect" className="fs-3">
+      <label htmlFor="yearSelect" className="fs-4">
         Filter by year:{" "}
       </label>
       <select
         id="yearSelect"
-        className="form-select form-select-lg mb-3"
+        className="form-select form-select-md mb-2"
         onChange={(e) => setYear(e.target.value)}
         value={year}
       >

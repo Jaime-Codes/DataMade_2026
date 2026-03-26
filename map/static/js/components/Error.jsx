@@ -14,6 +14,12 @@ const Error = () => {
       }}
     >
       <h1>Oh no, something went wrong</h1>
+      <img
+        src="static/images/chicagoStarsError.svg"
+        aria-hidden
+        width="200"
+        height="200"
+      />
       <button
         onClick={handleRefresh}
         style={{
