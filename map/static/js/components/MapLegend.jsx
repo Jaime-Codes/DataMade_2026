@@ -31,7 +31,7 @@ const MapLegend = () => {
             borderRadius: "5px",
           }}
         >
-          <h4 style={{ margin: "0 0 8px 0" }}>Permits (%)</h4>
+          <h2 style={{ margin: "0 0 8px 0" }}>Permits (%)</h2>
           {grades?.map((grade, i) => (
             <div
               key={grade}

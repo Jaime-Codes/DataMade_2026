@@ -56,7 +56,6 @@ export default function RestaurantPermitMap() {
     fetchMapData();
   }, [year]);
 
- 
   if (error) {
     return <Error />;
   }
@@ -129,7 +128,6 @@ export default function RestaurantPermitMap() {
                 <LeafletPopUp
                   communityName={activeArea.name}
                   permits={areaIdMap[activeArea.id]}
-                  year={year}
                 />
               </Popup>
             )}

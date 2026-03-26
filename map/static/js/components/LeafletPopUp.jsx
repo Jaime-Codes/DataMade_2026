@@ -1,8 +1,8 @@
-const LeafletPopUp = ({ communityName, year, permits }) => {
+const LeafletPopUp = ({ communityName, permits }) => {
   return (
     <div>
-      <h3 className="fs-5">{communityName}</h3>
-      <p>{`Permits this year: ${permits}`}</p>
+      <h2 className="fs-5">{communityName || "Name not available"}</h2>
+      <p>{`Permits this year: ${permits ?? "not available"}`}</p>
     </div>
   );
 };
