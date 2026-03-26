@@ -6,6 +6,7 @@ import YearlyPermitInfo from "./components/YearlyPermitInfo";
 import Loading from "./components/Loading";
 import Error from "./components/Error";
 import LeafletPopUp from "./components/LeafletPopUp";
+import Legend from "./components/MapLegend";
 
 import getMaxNumberOfPermits from "./utils/getMaxNumberOfPermits";
 import getMapAreaColor from "./utils/getMapAreaColor";
@@ -53,51 +54,50 @@ export default function RestaurantPermitMap() {
     };
 
     fetchMapData();
-  }, [yearlyDataEndpoint]);
+  }, [year]);
 
   if (isLoading) {
     return <Loading />;
   }
   if (error) {
-    return (
-      <div>
-        <YearSelect setYear={setYear} />
-        <Error />
-      </div>
-    );
+    return <Error />;
   }
+
   const maxNumPermits = getMaxNumberOfPermits(currentYearData);
 
   function setAreaInteraction(feature, layer) {
-    /**
-     * TODO: Use the methods below to:
-     * 1) Shade each community area according to what percentage of
-     * permits were issued there in the selected year
-     * 2) On hover, display a popup with the community area's raw
-     * permit count for the year
-     */
+  
 
     const communityName = feature.properties.community;
     const area_id = feature.properties.area_num_1;
     const permitPercentage = (areaIdMap[area_id] / maxNumPermits.max) * 100;
-
-    layer.setStyle({
+    const defaultStyle = {
       fillColor: getMapAreaColor(permitPercentage),
       weight: 1,
-      //TODO update color
       color: "red",
       fillOpacity: 0.8,
-    });
+    };
+
+    const hoverStyle = {
+      ...defaultStyle,
+      color: "green",
+    };
+
+    layer.setStyle(defaultStyle);
     layer.on({
       mouseover: (e) => {
+        layer.setStyle(hoverStyle);
         setActiveArea({
           position: e.latlng,
           name: communityName,
           id: area_id,
+          color: "green",
         });
       },
-      //TODO verify if this is wanted behavior
-      // mouseout: () => setActiveArea(null),
+      mouseout: () => {
+        layer.setStyle(defaultStyle);
+        setActiveArea(null);
+      },
     });
   }
 
@@ -107,7 +107,7 @@ export default function RestaurantPermitMap() {
 
       <YearlyPermitInfo
         totalPermits={totalPermits}
-        maxPermits={maxNumPermits.max}
+        maxPermits={maxNumPermits}
       />
       <MapContainer id="restaurant-map" center={[41.88, -87.62]} zoom={10}>
         <TileLayer
@@ -134,6 +134,7 @@ export default function RestaurantPermitMap() {
                 />
               </Popup>
             )}
+            <Legend />
           </>
         ) : null}
       </MapContainer>

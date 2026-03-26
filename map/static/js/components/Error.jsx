@@ -19,7 +19,7 @@ const Error = () => {
         style={{
           width: "fit-content",
           borderRadius: "8px",
-          background: "blue",
+          background: "#41B6E6",
           color: "white",
         }}
       >
