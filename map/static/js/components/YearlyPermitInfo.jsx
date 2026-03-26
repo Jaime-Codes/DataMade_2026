@@ -7,7 +7,7 @@ const YearlyPermitInfo = ({ totalPermits, maxPermits }) => {
       </p>
       <p className="fs-5 ">
         Maximum number of restaurant permits in a single area:{" "}
-        {`${max} (${name})` || "N/A"}
+        {`${max} (${name.join(", ")})` || "N/A"}
       </p>
     </div>
   );

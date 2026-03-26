@@ -65,7 +65,10 @@ export default function RestaurantPermitMap() {
   function setAreaInteraction(feature, layer) {
     const communityName = feature.properties.community;
     const area_id = feature.properties.area_num_1;
-    const permitPercentage = (areaIdMap[area_id] / maxNumPermits.max) * 100;
+    const permitPercentage =
+      maxNumPermits.max > 0
+        ? (areaIdMap[area_id] / maxNumPermits.max) * 100
+        : 0;
     const defaultStyle = {
       fillColor: getMapAreaColor(permitPercentage),
       weight: 1,
